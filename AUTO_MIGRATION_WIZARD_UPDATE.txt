@@ -1,0 +1,63 @@
+##############################################################################
+# AUTOMATIC FIELD MAPPING - Import Wizard Update
+##############################################################################
+
+The import wizards now automatically map Excel columns to proper field names:
+
+BEFORE (Generic):
+  col_01, col_02, col_03...
+
+AFTER (Specific):
+  old_student_id, student_name, contract_id, student_national_id...
+
+##############################################################################
+# Column Mapping Logic
+##############################################################################
+
+balance_student.xlsx → 59 specific fields
+fees.xlsx → 8 specific fields
+
+The import wizard reads the Excel file and maps columns BY POSITION:
+- Column 1 (الرقم) → row_number
+- Column 2 (رقم الطالب) → old_student_id  
+- Column 3 (اسم الطالب) → student_name
+- Column 4 (رقم العقد المالي) → contract_id
+- ... and so on for all 59 columns
+
+##############################################################################
+# Benefits
+##############################################################################
+
+✓ No manual column mapping needed
+✓ Field names are self-explanatory
+✓ Easy to understand what data is where
+✓ Migration is straightforward
+✓ Data validation is easier
+
+##############################################################################
+# Student ID Formats
+##############################################################################
+
+old_student_id format: 20250374
+- 8 digits
+- Format: YYYYNNNN (Year + Sequence)
+- Example: 2025 + 0374
+
+contract_id format: Variable
+- Can be: 20256, 202562, 2025419
+- Not standardized in old system
+
+RECOMMENDATION: Use student_national_id as primary matching key!
+
+##############################################################################
+# Migration Strategy
+##############################################################################
+
+1. MATCH by national_id (most reliable)
+2. If not found, try old_student_id
+3. If still not found, CREATE new student
+4. Link to parent by parent_national_id
+5. Create payslip with all fees
+6. Record payments if amount_paid > 0
+
+##############################################################################
