@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Migrate Student Balance Wizard Form View -->
+    <record id="view_migrate_student_balance_wizard_form" model="ir.ui.view">
+        <field name="name">migrate.student.balance.wizard.form</field>
+        <field name="model">migrate.student.balance.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Migrate Student Balance to EMS">
+                <group>
+                    <group>
+                        <field name="import_batch"/>
+                        <field name="migration_mode"/>
+                    </group>
+                    <group string="Column Mapping">
+                        <field name="student_code_column"/>
+                        <field name="student_name_column"/>
+                        <field name="balance_column"/>
+                    </group>
+                </group>
+                <group invisible="success_count == 0 and error_count == 0">
+                    <group>
+                        <field name="success_count" readonly="1"/>
+                        <field name="error_count" readonly="1"/>
+                    </group>
+                    <group colspan="2">
+                        <field name="migration_log" readonly="1" widget="text"/>
+                    </group>
+                </group>
+                <footer>
+                    <button string="Migrate" name="action_migrate" type="object" class="btn-primary" invisible="success_count != 0 or error_count != 0"/>
+                    <button string="View Migrated Students" name="action_view_migrated_students" type="object" class="btn-success" invisible="success_count == 0"/>
+                    <button string="Close" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_migrate_student_balance_wizard" model="ir.actions.act_window">
+        <field name="name">Migrate to EMS</field>
+        <field name="res_model">migrate.student.balance.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_ics_student_balance_staging"/>
+        <field name="binding_view_types">list</field>
+    </record>
+</odoo>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fee Staging Tree View -->
+    <record id="view_fee_staging_tree" model="ir.ui.view">
+        <field name="name">ics.fee.staging.tree</field>
+        <field name="model">ics.fee.staging</field>
+        <field name="arch" type="xml">
+            <tree string="Fee Staging Data" create="false" decoration-success="migrated==True" decoration-warning="migrated==False">
+                <field name="import_batch" optional="show"/>
+                <field name="row_number" optional="show"/>
+                <field name="col_01" string="Col 1" optional="show"/>
+                <field name="col_02" string="Col 2" optional="show"/>
+                <field name="col_03" string="Col 3" optional="show"/>
+                <field name="col_04" string="Col 4" optional="show"/>
+                <field name="col_05" string="Col 5" optional="show"/>
+                <field name="col_06" string="Col 6" optional="show"/>
+                <field name="col_07" string="Col 7" optional="hide"/>
+                <field name="col_08" string="Col 8" optional="hide"/>
+                <field name="col_09" string="Col 9" optional="hide"/>
+                <field name="col_10" string="Col 10" optional="hide"/>
+                <field name="migrated" optional="show"/>
+                <field name="payslip_id" optional="show"/>
+                <field name="import_date" optional="show"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Fee Staging Form View -->
+    <record id="view_fee_staging_form" model="ir.ui.view">
+        <field name="name">ics.fee.staging.form</field>
+        <field name="model">ics.fee.staging</field>
+        <field name="arch" type="xml">
+            <form string="Fee Staging" create="false">
+                <header>
+                    <button name="action_view_payslip" string="View Payslip" type="object" class="btn-primary" invisible="payslip_id == False"/>
+                    <button name="action_mark_migrated" string="Mark as Migrated" type="object" class="btn-success" invisible="migrated == True"/>
+                    <button name="action_reset_migration" string="Reset Migration" type="object" class="btn-warning" invisible="migrated == False"/>
+                    <field name="migrated" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_payslip" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="payslip_id == False">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">View</span>
+                                <span class="o_stat_text">Payslip</span>
+                            </div>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Import Information">
+                            <field name="import_batch"/>
+                            <field name="row_number"/>
+                            <field name="import_date"/>
+                            <field name="imported_by"/>
+                        </group>
+                        <group string="Migration Status">
+                            <field name="payslip_id"/>
+                            <field name="migration_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Data Columns (1-15)">
+                            <group>
+                                <group>
+                                    <field name="col_01"/>
+                                    <field name="col_02"/>
+                                    <field name="col_03"/>
+                                    <field name="col_04"/>
+                                    <field name="col_05"/>
+                                    <field name="col_06"/>
+                                    <field name="col_07"/>
+                                    <field name="col_08"/>
+                                </group>
+                                <group>
+                                    <field name="col_09"/>
+                                    <field name="col_10"/>
+                                    <field name="col_11"/>
+                                    <field name="col_12"/>
+                                    <field name="col_13"/>
+                                    <field name="col_14"/>
+                                    <field name="col_15"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Data Columns (16-30)">
+                            <group>
+                                <group>
+                                    <field name="col_16"/>
+                                    <field name="col_17"/>
+                                    <field name="col_18"/>
+                                    <field name="col_19"/>
+                                    <field name="col_20"/>
+                                    <field name="col_21"/>
+                                    <field name="col_22"/>
+                                    <field name="col_23"/>
+                                </group>
+                                <group>
+                                    <field name="col_24"/>
+                                    <field name="col_25"/>
+                                    <field name="col_26"/>
+                                    <field name="col_27"/>
+                                    <field name="col_28"/>
+                                    <field name="col_29"/>
+                                    <field name="col_30"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Migration Log">
+                            <field name="migration_log" widget="text"/>
+                            <field name="notes" widget="text"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Fee Staging Search View -->
+    <record id="view_fee_staging_search" model="ir.ui.view">
+        <field name="name">ics.fee.staging.search</field>
+        <field name="model">ics.fee.staging</field>
+        <field name="arch" type="xml">
+            <search string="Search Fee Staging">
+                <field name="import_batch"/>
+                <field name="col_01"/>
+                <field name="col_02"/>
+                <field name="col_03"/>
+                <field name="payslip_id"/>
+                <filter string="Not Migrated" name="not_migrated" domain="[('migrated', '=', False)]"/>
+                <filter string="Migrated" name="migrated" domain="[('migrated', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Import Batch" name="group_import_batch" context="{'group_by': 'import_batch'}"/>
+                    <filter string="Import Date" name="group_import_date" context="{'group_by': 'import_date'}"/>
+                    <filter string="Migrated" name="group_migrated" context="{'group_by': 'migrated'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_fee_staging" model="ir.actions.act_window">
+        <field name="name">Fee Staging</field>
+        <field name="res_model">ics.fee.staging</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_not_migrated': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No imported data yet!
+            </p>
+            <p>
+                Use the "Import Fees" wizard to upload Excel data.
+            </p>
+        </field>
+    </record>
+</odoo>

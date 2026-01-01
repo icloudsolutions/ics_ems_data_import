@@ -1,0 +1,67 @@
+╔═══════════════════════════════════════════════════════════════════════════╗
+║                  ICS EMS DATA IMPORT MODULE - QUICK REFERENCE             ║
+║                           Version 19.0.1.0.0                              ║
+╚═══════════════════════════════════════════════════════════════════════════╝
+
+MODULE LOCATION: ics_ems_data_import/
+
+INSTALLATION:
+  1. pip install openpyxl
+  2. Copy module to Odoo addons directory
+  3. Restart Odoo
+  4. Install via Apps menu
+
+MENU ACCESS: Data Import → Student Balance / Fees
+
+WORKFLOW:
+  Import Excel → View Staging → Map Columns → Migrate to EMS
+
+KEY MODELS:
+  • ics.student.balance.staging (25 columns)
+  • ics.fee.staging (30 columns)
+
+WIZARDS:
+  • Import Student Balance / Fees (Excel upload)
+  • Migrate Student Balance / Fees (to EMS)
+
+FILES CREATED: 23 total
+  • Python Models: 6 files
+  • XML Views: 9 files
+  • Security: 1 file
+  • Documentation: 4 markdown files
+  • Web: 1 HTML file
+
+SECURITY GROUPS:
+  • School Administrator: Full access
+  • School Manager: Import & migrate
+  • School User: View only
+
+DOCUMENTATION:
+  • README.md - Complete documentation
+  • INSTALLATION.md - Setup instructions
+  • USAGE_GUIDE.md - Usage examples
+  • MODULE_SUMMARY.md - Technical details
+
+SUPPORTED DATA:
+  • Student Balance (balance_student.xlsx)
+  • Fees (fees.xlsx)
+
+KEY FEATURES:
+  ✓ Raw data import without transformation
+  ✓ Flexible staging tables
+  ✓ Column mapping wizard
+  ✓ Prevent duplicates
+  ✓ Update existing records
+  ✓ Detailed logs
+  ✓ Repeatable imports
+
+SUPPORT: support@icloudsolutions.sa
+WEBSITE: https://icloudsolutions.sa
+
+╔═══════════════════════════════════════════════════════════════════════════╗
+║ Next Steps:                                                               ║
+║ 1. Install openpyxl: pip install openpyxl                                ║
+║ 2. Move module to Odoo addons directory                                  ║
+║ 3. Install module via Odoo Apps                                          ║
+║ 4. Test with sample Excel file                                           ║
+╚═══════════════════════════════════════════════════════════════════════════╝

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_data_import_root"
+              name="Data Import"
+              sequence="100"
+              groups="ics_ems_core.group_school_manager,ics_ems_core.group_school_administrator"/>
+
+    <!-- Student Balance Menu -->
+    <menuitem id="menu_student_balance_import"
+              name="Student Balance"
+              parent="menu_data_import_root"
+              sequence="10"/>
+
+    <menuitem id="menu_student_balance_staging"
+              name="Staging Data"
+              parent="menu_student_balance_import"
+              action="action_student_balance_staging"
+              sequence="10"/>
+
+    <menuitem id="menu_import_student_balance"
+              name="Import from Excel"
+              parent="menu_student_balance_import"
+              action="action_import_student_balance_wizard"
+              sequence="20"/>
+
+    <menuitem id="menu_migrate_student_balance"
+              name="Migrate to EMS"
+              parent="menu_student_balance_import"
+              action="action_migrate_student_balance_wizard"
+              sequence="30"/>
+
+    <!-- Fee Import Menu -->
+    <menuitem id="menu_fee_import"
+              name="Fees"
+              parent="menu_data_import_root"
+              sequence="20"/>
+
+    <menuitem id="menu_fee_staging"
+              name="Staging Data"
+              parent="menu_fee_import"
+              action="action_fee_staging"
+              sequence="10"/>
+
+    <menuitem id="menu_import_fees"
+              name="Import from Excel"
+              parent="menu_fee_import"
+              action="action_import_fees_wizard"
+              sequence="20"/>
+
+    <menuitem id="menu_migrate_fees"
+              name="Migrate to EMS"
+              parent="menu_fee_import"
+              action="action_migrate_fees_wizard"
+              sequence="30"/>
+</odoo>
