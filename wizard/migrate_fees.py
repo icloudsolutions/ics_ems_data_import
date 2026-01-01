@@ -147,6 +147,6 @@ class MigrateFees(models.TransientModel):
             'type': 'ir.actions.act_window',
             'name': _('Migrated Payslips'),
             'res_model': 'ics.student.payslip',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', payslip_ids.ids)],
         }

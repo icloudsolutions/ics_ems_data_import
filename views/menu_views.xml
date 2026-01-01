@@ -3,9 +3,7 @@
     <!-- Main Menu -->
     <menuitem id="menu_data_import_root"
               name="Data Import"
-              sequence="100"
-              groups="ics_ems_core.group_school_manager,ics_ems_core.group_school_administrator"/>
-
+              sequence="100"/>
     <!-- Student Balance Menu -->
     <menuitem id="menu_student_balance_import"
               name="Student Balance"

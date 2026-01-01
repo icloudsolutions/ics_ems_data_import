@@ -1,3 +1,4 @@
+# __manifest__.py
 {
     'name': 'ICS EMS Data Import',
     'version': '19.0.1.0.0',
@@ -33,14 +34,21 @@ Supported Imports:
         'ics_ems_core',
     ],
     'data': [
+        # Security must be loaded first
         'security/ir.model.access.csv',
-        'views/menu_views.xml',
+        
+        # Views must be loaded before menus (so actions are defined)
         'views/student_balance_staging_views.xml',
         'views/fee_staging_views.xml',
+        
+        # Wizards
         'wizard/import_student_balance_views.xml',
         'wizard/import_fees_views.xml',
         'wizard/migrate_student_balance_views.xml',
         'wizard/migrate_fees_views.xml',
+        
+        # Menus last (references actions from views)
+        'views/menu_views.xml',
     ],
     'external_dependencies': {
         'python': ['openpyxl'],

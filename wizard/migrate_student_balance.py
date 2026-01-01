@@ -143,6 +143,6 @@ class MigrateStudentBalance(models.TransientModel):
             'type': 'ir.actions.act_window',
             'name': _('Migrated Students'),
             'res_model': 'ics.student',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('id', 'in', student_ids.ids)],
         }

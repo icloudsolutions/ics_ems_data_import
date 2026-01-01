@@ -149,7 +149,7 @@ class ImportFees(models.TransientModel):
             'type': 'ir.actions.act_window',
             'name': _('Imported Fee Data'),
             'res_model': 'ics.fee.staging',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('import_batch', '=', self.import_batch)],
             'context': {'default_import_batch': self.import_batch},
         }

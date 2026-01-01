@@ -5,7 +5,7 @@
         <field name="name">ics.student.balance.staging.tree</field>
         <field name="model">ics.student.balance.staging</field>
         <field name="arch" type="xml">
-            <tree string="Student Balance Staging Data" create="false" decoration-success="migrated==True" decoration-warning="migrated==False">
+            <list string="Student Balance Staging Data" create="false" decoration-success="state=='done'" decoration-warning="state=='draft'">
                 <field name="import_batch" optional="show"/>
                 <field name="row_number" optional="show"/>
                 <field name="col_01" string="Col 1" optional="show"/>
@@ -28,11 +28,11 @@
                 <field name="col_18" string="Col 18" optional="hide"/>
                 <field name="col_19" string="Col 19" optional="hide"/>
                 <field name="col_20" string="Col 20" optional="hide"/>
-                <field name="migrated" optional="show"/>
+                <field name="state" optional="show"/>
                 <field name="student_id" optional="show"/>
                 <field name="import_date" optional="show"/>
                 <field name="imported_by" optional="hide"/>
-            </tree>
+            </list>
         </field>
     </record>
 
@@ -44,9 +44,9 @@
             <form string="Student Balance Staging" create="false">
                 <header>
                     <button name="action_view_student" string="View Student" type="object" class="btn-primary" invisible="student_id == False"/>
-                    <button name="action_mark_migrated" string="Mark as Migrated" type="object" class="btn-success" invisible="migrated == True"/>
-                    <button name="action_reset_migration" string="Reset Migration" type="object" class="btn-warning" invisible="migrated == False"/>
-                    <field name="migrated" widget="statusbar"/>
+                    <button name="action_mark_migrated" string="Mark as Migrated" type="object" class="btn-success" invisible="state == 'done'"/>
+                    <button name="action_reset_migration" string="Reset Migration" type="object" class="btn-warning" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -136,12 +136,12 @@
                 <field name="col_02"/>
                 <field name="col_03"/>
                 <field name="student_id"/>
-                <filter string="Not Migrated" name="not_migrated" domain="[('migrated', '=', False)]"/>
-                <filter string="Migrated" name="migrated" domain="[('migrated', '=', True)]"/>
-                <group expand="0" string="Group By">
+                <filter string="Not Migrated" name="not_migrated" domain="[('state', '=', 'draft')]"/>
+                <filter string="Migrated" name="migrated" domain="[('state', '=', 'done')]"/>
+                <group>
                     <filter string="Import Batch" name="group_import_batch" context="{'group_by': 'import_batch'}"/>
                     <filter string="Import Date" name="group_import_date" context="{'group_by': 'import_date'}"/>
-                    <filter string="Migrated" name="group_migrated" context="{'group_by': 'migrated'}"/>
+                    <filter string="Status" name="group_state" context="{'group_by': 'state'}"/>
                 </group>
             </search>
         </field>
@@ -151,7 +151,7 @@
     <record id="action_student_balance_staging" model="ir.actions.act_window">
         <field name="name">Student Balance Staging</field>
         <field name="res_model">ics.student.balance.staging</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">list,form</field>
         <field name="context">{'search_default_not_migrated': 1}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">

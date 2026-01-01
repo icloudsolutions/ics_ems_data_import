@@ -1,3 +1,4 @@
+# models/fee_staging.py
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -14,8 +15,15 @@ class FeeStaging(models.Model):
     imported_by = fields.Many2one('res.users', string='Imported By', default=lambda self: self.env.user)
     row_number = fields.Integer(string='Row #', help='Original row number from Excel file')
 
-    # Migration status
-    migrated = fields.Boolean(string='Migrated', default=False, index=True)
+    # Migration status - Changed to Selection field for statusbar
+    state = fields.Selection([
+        ('draft', 'Not Migrated'),
+        ('done', 'Migrated'),
+    ], string='Status', default='draft', required=True)
+    
+    # Keep migrated as computed field for backward compatibility
+    migrated = fields.Boolean(string='Migrated', compute='_compute_migrated', 
+                              store=True, index=True)
     migration_date = fields.Datetime(string='Migration Date')
     migration_log = fields.Text(string='Migration Log')
     payslip_id = fields.Many2one('ics.student.payslip', string='Linked Payslip',
@@ -55,10 +63,15 @@ class FeeStaging(models.Model):
 
     notes = fields.Text(string='Notes')
 
-    _unique_key = models.Constraint(
-        'unique(import_batch, row_number)',
-        'Row number must be unique within each import batch!'
-    )
+    _sql_constraints = [
+        ('unique_batch_row', 'unique(import_batch, row_number)', 
+         'Row number must be unique within each import batch!')
+    ]
+
+    @api.depends('state')
+    def _compute_migrated(self):
+        for record in self:
+            record.migrated = (record.state == 'done')
 
     def name_get(self):
         result = []
@@ -84,13 +97,13 @@ class FeeStaging(models.Model):
 
     def action_mark_migrated(self):
         self.write({
-            'migrated': True,
+            'state': 'done',
             'migration_date': fields.Datetime.now(),
         })
 
     def action_reset_migration(self):
         self.write({
-            'migrated': False,
+            'state': 'draft',
             'migration_date': False,
             'migration_log': False,
             'payslip_id': False,
